@@ -27,6 +27,7 @@ class QueueManager{
     {
         $result = $this->sqsClient->createQueue(array('QueueName' => $queueName));
         $queueUrl = $result->get('QueueUrl');
+
         return $queueUrl;
     }
 
@@ -39,6 +40,22 @@ class QueueManager{
                 'VisibilityTimeout' => $seconds,
             ),
         ));
+
+        return $result;
+    }
+
+    // Send a message to an already created queue.
+    public function sendMessage($queueUrl, $message, $delaySeconds = null)
+    {
+        $messageParams = array(
+            'QueueUrl'     => $queueUrl,
+            'MessageBody'  => $message
+        );
+
+        // Set the delay seconds only if something provided
+        if(!empty($delaySeconds)) $messageParams['DelaySeconds'] = $delaySeconds;
+
+        $result = $this->sqsClient->sendMessage($messageParams);
 
         return $result;
     }
