@@ -22,4 +22,25 @@ class QueueManager{
         return $client;
     }
 
+    // Create a queue, returns the queue URL
+    public function createQueue($queueName)
+    {
+        $result = $this->sqsClient->createQueue(array('QueueName' => $queueName));
+        $queueUrl = $result->get('QueueUrl');
+        return $queueUrl;
+    }
+
+    // Set attributes of an already created queue. Returns a response Model object
+    public function setAttributes($queueUrl, $seconds)
+    {
+        $result = $this->sqsClient->setQueueAttributes(array(
+            'QueueUrl'   => $queueUrl,
+            'Attributes' => array(
+                'VisibilityTimeout' => $seconds,
+            ),
+        ));
+
+        return $result;
+    }
+
 }
