@@ -60,4 +60,46 @@ class QueueManager{
         return $result;
     }
 
+    // Receive message in the queue
+    public function receiveMessage($queueUrl)
+    {
+        $result = $this->sqsClient->receiveMessage(array(
+            'QueueUrl' => $queueUrl,
+        ));
+
+        return $result->getPath('Messages')[0];
+    }
+
+    // Delete a message
+    public function deleteMessage($queueUrl, $receiptHandle)
+    {
+        $result = $this->sqsClient->deleteMessage(array(
+            'QueueUrl' => $queueUrl,
+            'ReceiptHandle' => $receiptHandle,
+        ));
+
+        return $result;
+    }
+
+    // Returns all attributes
+    public function getAllAttributes($queueUrl)
+    {
+        $result = $this->sqsClient->getQueueAttributes(array(
+            'QueueUrl' => $queueUrl,
+            'AttributeNames' => array('All')
+        ));
+
+        return $result;
+    }
+
+    // Delete a queue
+    public function deleteQueue($queueUrl)
+    {
+        $result = $this->sqsClient->deleteQueue(array(
+            'QueueUrl' => $queueUrl,
+        ));
+
+        return $result;
+    }
+
 }
