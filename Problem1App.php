@@ -11,7 +11,7 @@ ini_set('max_execution_time', 300); // Increase max exec time, due to sleep()
 $qm = new QueueManager(); // Get the QueueManager
 
 // Make a queue
-$queueUrl = $qm->createQueue('test-queue20');
+$queueUrl = $qm->createQueue('test-queue23');
 echo 'The Queue URL returned is '.$queueUrl.'<hr>';
 #$queueUrl = 'https://sqs.us-east-1.amazonaws.com/330312668718/test-queue';
 $response = $qm->setAttributes($queueUrl, 20); // Set visibility timeout to 20 seconds
